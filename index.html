@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Навчальний проєкт: видові критерії (інтерактивні аркуші)</title>
+<style>
+:root{box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px);
+--bg:#eef3ee;--card:#fff;--ink:#1f2a24;--mut:#5b6b61;--line:#cfdcd2;--tint:#f4f8f4;--field:#fff;--shadow:0 6px 24px rgba(30,60,40,.12)}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){color-scheme:dark;--bg:#141a16;--card:#1d2620;--ink:#e8f0ea;--mut:#a3b3a8;--line:#3a4a3f;--tint:#243028;--field:#17201a;--shadow:none}}
+:root[data-theme="dark"]{color-scheme:dark;--bg:#141a16;--card:#1d2620;--ink:#e8f0ea;--mut:#a3b3a8;--line:#3a4a3f;--tint:#243028;--field:#17201a;--shadow:none}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:"Nunito","Segoe UI",Roboto,Arial,sans-serif;line-height:1.45}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);background:var(--card);z-index:10}
+.bar{position:sticky;top:env(safe-area-inset-top,0px);z-index:5;background:var(--card);border-bottom:1px solid var(--line);padding:8px 10px;display:flex;gap:6px;flex-wrap:wrap;justify-content:center}
+.bar a{font-size:13px;font-weight:700;color:var(--ink);background:var(--tint);border:1px solid var(--line);border-radius:18px;padding:4px 12px;text-decoration:none}
+.bar a.cur{background:var(--ink);color:var(--card)}
+.page{max-width:860px;margin:16px auto;padding:0 12px 40px}
+.card{display:none;--c:#2e8b57;--c2:#d4efdc;background:var(--card);border-radius:22px;box-shadow:var(--shadow);overflow:hidden;border:2px solid var(--c)}
+.card.on{display:block}
+.hd{position:relative;background:linear-gradient(135deg,var(--c),var(--c2));padding:18px 22px;color:#10231a;overflow:hidden}
+.hd .big{position:absolute;right:14px;top:-18px;font-size:120px;font-weight:900;color:#fff;opacity:.35;line-height:1}
+.hd h1{margin:6px 0 0;font-size:21px;line-height:1.25;position:relative;max-width:90%}
+.hd .sub{font-size:14px;font-weight:700;margin-top:4px;position:relative}
+.badge{display:inline-block;background:#fff;color:#10231a;font-weight:800;font-size:12px;padding:2px 11px;border-radius:12px;position:relative}
+.names{display:grid;grid-template-columns:1fr 1fr;gap:10px;padding:14px 18px 0}
+.sp{border-radius:14px;padding:9px 13px;font-size:14px;border:2px solid;color:#10231a}
+.sp b{display:block;font-size:16px}.sp i{font-size:13px;opacity:.8}
+.s1{background:#e3f2fd;border-color:#64b5f6}.s2{background:#ede7f6;border-color:#9575cd}
+.who{display:grid;grid-template-columns:2fr 1fr;gap:10px;padding:12px 18px 0}
+label.w{font-size:12px;color:var(--mut);font-weight:700;display:block}
+input.g,textarea{font:inherit;font-size:14px;color:var(--ink);background:var(--field);border:1.5px solid var(--line);border-radius:10px;padding:7px 10px;width:100%}
+input.g:focus,textarea:focus{outline:2px solid var(--c);border-color:var(--c)}
+textarea{resize:vertical;min-height:62px;field-sizing:content}
+td textarea{min-height:76px}
+.sec{padding:14px 18px 4px}
+.task{display:flex;align-items:flex-start;gap:9px;font-weight:800;font-size:15px;margin-bottom:6px}
+.n{background:var(--c);color:#fff;border-radius:50%;min-width:27px;height:27px;display:grid;place-items:center;font-size:14px}
+.pts{margin-left:auto;font-size:12px;background:var(--c2);color:#10231a;border-radius:10px;padding:1px 9px;white-space:nowrap}
+.q{font-size:13.5px;color:var(--mut);margin:0 0 8px}
+.goal{font-size:14px;background:var(--tint);border-left:5px solid var(--c);border-radius:8px;padding:8px 12px;margin:12px 18px 0}
+.tw{overflow-x:auto}
+table{width:100%;min-width:560px;border-collapse:separate;border-spacing:0;font-size:13px;border:1.5px solid var(--line);border-radius:12px;overflow:hidden}
+th{background:var(--c);color:#fff;padding:7px 9px;text-align:left}
+td{border-top:1px solid var(--line);padding:6px;vertical-align:top}
+td.l{width:26%;background:var(--tint);font-weight:700;padding:8px 10px}
+td.l small{display:block;font-weight:400;color:var(--mut);font-size:11.5px}
+.tf{list-style:none;margin:0;padding:0}
+.tf li{display:flex;gap:10px;padding:8px 0;border-bottom:1px dashed var(--line);align-items:center;font-size:14px}
+.yn{margin-left:auto;display:flex;gap:6px}
+.yn button{font:inherit;font-size:13px;font-weight:700;border:1.5px solid var(--line);background:var(--field);color:var(--ink);border-radius:10px;padding:4px 14px;cursor:pointer}
+.yn button.sel{background:var(--c);border-color:var(--c);color:#fff}
+.sum{border:2px dashed var(--c);border-radius:14px;padding:12px 14px;margin:8px 18px 14px;background:var(--tint)}
+.sum b{color:var(--c)}
+.act{display:flex;gap:8px;flex-wrap:wrap;align-items:center;padding:6px 18px 16px}
+.btn{font:inherit;font-size:14px;font-weight:800;border:0;border-radius:12px;padding:9px 16px;cursor:pointer;background:var(--c);color:#fff}
+.btn.o{background:transparent;color:var(--ink);border:1.5px solid var(--line)}
+.msg{font-size:13px;color:var(--mut)}
+.prog{height:8px;background:var(--line);border-radius:6px;margin:10px 18px 0;overflow:hidden}
+.prog i{display:block;height:100%;width:0;background:var(--c);transition:width .3s}
+.pl{font-size:12px;color:var(--mut);margin:3px 18px 0}
+.foot{text-align:center;background:var(--c2);color:#10231a;font-weight:800;font-size:13px;padding:9px}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.box{border-radius:14px;padding:11px 15px;border:2px solid var(--line);background:var(--tint);font-size:14px}
+.box h3{margin:0 0 6px;font-size:15px}
+.box ol,.box ul{margin:0;padding-left:20px}.box li{margin:4px 0}
+.vl{display:flex;gap:12px;align-items:center;padding:8px 0;border-bottom:1px dashed var(--line);text-decoration:none;color:var(--ink);font-size:14px}
+.vl .nn{min-width:34px;height:34px;border-radius:10px;display:grid;place-items:center;font-weight:900;color:#10231a}
+.vl:hover{background:var(--card)}
+.wk{border:1.5px solid var(--line);border-radius:12px;padding:8px 12px;margin:8px 0;background:var(--tint);font-size:14px}
+.wk pre{white-space:pre-wrap;font:inherit;font-size:13px;margin:6px 0 0}
+@media (max-width:620px){.grid2,.names{grid-template-columns:1fr}.hd h1{font-size:17px}.hd .big{font-size:84px}}
+</style>
+</head>
+<body>
+<div class="bar" id="nav"></div>
+<div class="page" id="root"></div>
+
+<script>
+const P=[
+{c:"#2e8b57",c2:"#d4efdc",a:["Вовк сірий","Canis lupus"],b:["Собака свійський","Canis lupus familiaris"],
+ hook:"Два представники одного роду, але різні шляхи. Чи є вони різними видами?",
+ rows:[["Розміри та маса","довжина тіла, висота в холці, маса"],["Будова тіла, положення хвоста","пропорції, вуха, хвіст"],["Спосіб життя","зграя чи людина; поведінка"],["Живлення","чим і як добуває їжу"],["Розмноження","скільки разів на рік, приплід"],["Різноманітність форм","породи, мінливість ознак"],["Походження та ареал","де живе, як з’явився"]],
+ tf:["Вовк і собака мають однакову кількість хромосом (2n = 78).","Хвіст вовка зазвичай закручений у кільце.","Усі породи собак мають приблизно однакові розміри.","Гібриди вовка і собаки можуть бути плідними."],
+ q4:"Назвіть зміни, що виникли в собаки внаслідок одомашнення та штучного добору.",
+ q5:"Чому частина вчених розглядає собаку як підвид вовка, а не окремий вид?"},
+{c:"#c77d1a",c2:"#fbe8c6",a:["Заєць-русак","Lepus europaeus"],b:["Заєць-біляк","Lepus timidus"],
+ hook:"Обидва — зайці, але один віддає перевагу полям, а другий — північним лісам і снігу.",
+ rows:[["Розміри та маса","довжина тіла, маса"],["Вуха та задні лапи","довжина відносно голови"],["Забарвлення","влітку та взимку"],["Місце проживання","поле, степ чи ліс, тундра"],["Живлення","влітку та взимку"],["Розмноження","виводків на рік, зайченята"],["Ареал","світ і Україна"]],
+ tf:["Заєць-русак узимку повністю білий.","Біляк пристосований до глибокого снігового покриву.","Обидва зайці живляться рослинною їжею.","Русак і біляк мають однаковий ареал."],
+ q4:"Назвіть пристосування біляка до життя в північних лісах і русака — до життя на відкритих просторах.",
+ q5:"Чому за зовнішніми ознаками ці види легко сплутати, а за екологічними — легко розрізнити?"},
+{c:"#d1493f",c2:"#fbdad6",a:["Рак довгопалий","Astacus leptodactylus"],b:["Рак широкопалий","Astacus astacus"],
+ hook:"Один витриваліший, інший вимогливий до води. Як їх відрізнити?",
+ rows:[["Розміри та маса","довжина тіла, маса"],["Клешні","форма, довжина пальців"],["Рострум і шипи","форма голови, шипи позаду шийної борозни"],["Забарвлення","панцир зверху та знизу"],["Вимоги до води","чистота, кисень, солоність"],["Розмноження","період парування, ікра, личинки"],["Ареал та охорона","поширення, стан популяцій"]],
+ tf:["Клешні довгопалого рака вужчі й довші, ніж у широкопалого.","Обидва види однаково витримують забруднення води.","Самки носять запліднену ікру під черевцем.","Рак довгопалий і широкопалий дають плідних гібридів."],
+ q4:"Поясніть, чому широкопалий рак зникає швидше, ніж довгопалий. Які фактори впливають на їх чисельність?",
+ q5:"Чому раків використовують як біоіндикаторів чистоти водойм?"},
+{c:"#2a7fb8",c2:"#d3e8f6",a:["Мартин сріблястий","Larus argentatus"],b:["Мартин жовтоногий","Larus michahellis"],
+ hook:"Схожі птахи на одному узбережжі. Де закінчується один вид і починається інший?",
+ rows:[["Розміри та розмах крил","довжина тіла, розмах"],["Забарвлення оперення","спина, кінчики крил"],["Дзьоб і ноги","колір ніг, пляма на дзьобі"],["Місця гніздування","узбережжя, острови, водойми"],["Живлення","природна їжа та сміттєзвалища"],["Розмноження","кладка, насиджування, пташенята"],["Ареал і міграції","північ чи південь, перелітність"]],
+ tf:["У сріблястого мартина ноги рожеві.","Обидва мартини належать до одного роду.","Види мають однакові ареали.","У зонах контакту можливе схрещування."],
+ q4:"Які ознаки допомагають розрізнити ці види під час спостережень у природі?",
+ q5:"Чому мартинів називають «кільцевим видом» і чому це ускладнює визначення меж виду?"},
+{c:"#5c9b2e",c2:"#e0f0cc",a:["Жаба трав’яна","Rana temporaria"],b:["Жаба гостроморда","Rana arvalis"],
+ hook:"Бурі жаби так схожі, що їх плутають навіть дорослі. Які ознаки справді надійні?",
+ rows:[["Розміри та маса","довжина тіла"],["Морда та забарвлення спини","форма морди, світла смуга вздовж спини"],["Череве та горло","плямистість, мармуровий малюнок"],["Внутрішній п’ятковий горбок","висота, твердість"],["Місце проживання","вологі ліси, луки, болотисті заплави"],["Розмноження","терміни нересту, ікра, шлюбне забарвлення самців"],["Ареал","світ, Україна, висота над рівнем моря"]],
+ tf:["Гостроморда жаба часто має світлу смугу вздовж спини.","Обидві жаби відкладають ікру у воду навесні.","У гостроморденої жаби п’ятковий горбок низький і м’який.","Трав’яна й гостроморда жаби утворюють плідні гібриди в природі."],
+ q4:"Назвіть ознаки, за якими в природі розрізняють ці два види.",
+ q5:"Чому для визначення виду земноводних одного морфологічного критерію недостатньо?"},
+{c:"#b8a000",c2:"#f6efb8",a:["Синиця велика","Parus major"],b:["Синиця блакитна","Cyanistes caeruleus"],
+ hook:"Два сусіди по пташиній годівниці — але чи є між ними різниця, окрім кольору?",
+ rows:[["Розміри та маса","довжина тіла, маса"],["Забарвлення","голова, крила, груди, черево"],["Місце проживання","типи лісів, парки, сади"],["Живлення","влітку та взимку"],["Гніздування","дупла, шпаківні, кладка, пташенята"],["Спосіб життя","осілість, зграї, поведінка"],["Ареал","поширення світом та в Україні"]],
+ tf:["Обидві синиці належать до одного роду.","У синиці великої на жовтому череві є чорна поздовжня смуга.","Обидва види можуть гніздитися в дуплах і шпаківнях.","Синиця блакитна більша за синицю велику."],
+ q4:"Яку користь приносять синиці в лісах, парках і садах?",
+ q5:"Чому близькі за способом життя види синиць можуть співіснувати в одному лісі?"},
+{c:"#8a6a3d",c2:"#efe0c9",a:["Вовк","Canis lupus"],b:["Шакал звичайний","Canis aureus"],
+ hook:"Родичі з одного роду, але один — господар тайги й степу, а другий — південний «мандрівник».",
+ rows:[["Розміри та маса","довжина тіла, висота в холці, маса"],["Зовнішній вигляд","голова, морда, хвіст, забарвлення"],["Спосіб життя","зграя, пара, територія"],["Живлення","основна здобич"],["Розмноження","період, кількість цуценят"],["Місце проживання","біотопи"],["Ареал","світ і Україна; зміни ареалу"]],
+ tf:["Вовк і шакал належать до одного роду Canis.","Шакал значно більший за вовка.","Шакал поширений лише в Арктиці.","Вовк і шакал мають однакову кількість хромосом (2n = 78)."],
+ q4:"Поясніть, чому шакал розширює ареал на північ, а вовк на багатьох територіях зникає.",
+ q5:"Чому за однакової кількості хромосом вовк і шакал — різні види?"},
+{c:"#a0522d",c2:"#f2d9c8",a:["Бобер європейський","Castor fiber"],b:["Бобер канадський","Castor canadensis"],
+ hook:"Зовні майже однакові, але генетично різні. Чи можна це довести?",
+ rows:[["Розміри та маса","довжина тіла, маса"],["Будова черепа","форма носових кісток (за атласом)"],["Хутро та забарвлення","відтінок, густота"],["Будівлі","хатки, нори, греблі"],["Живлення","кора, гілки, трав’яниста рослинність"],["Розмноження","кількість бобренят, строки"],["Ареал та походження","природний ареал, інтродукція"]],
+ tf:["Бобер європейський має 2n = 48, а канадський — 2n = 40.","Європейський і канадський бобри дають плідних гібридів.","Обидва види будують хатки й греблі.","Бобер канадський природно поширений у Європі."],
+ q4:"Яку роль відіграють бобри в екосистемах?",
+ q5:"Чому штучне розселення канадського бобра в Європі вважають загрозою для місцевого виду?"}
+];
+const CRIT=["Генетичний (кількість хромосом)","Репродуктивний (чи дають плідне потомство)","Морфологічний","Екологічний і географічний"];
+const S=(()=>{try{return JSON.parse(localStorage.getItem("sc-v2")||"{}")}catch(e){return {}}})();
+S.f=S.f||{};S.name=S.name||"";S.klas=S.klas||"";
+let tm;const save=()=>{clearTimeout(tm);tm=setTimeout(()=>{try{localStorage.setItem("sc-v2",JSON.stringify(S))}catch(e){}},300)};
+const E=s=>String(s).replace(/&/g,"&amp;").replace(/</g,"&lt;");
+const ta=(k,r)=>`<textarea data-k="${k}" rows="${r||2}"></textarea>`;
+function card(p,i){
+ const id="v"+(i+1),A=p.a[0],B=p.b[0];
+ const rows=p.rows.map((r,j)=>`<tr><td class="l">${r[0]}<small>${r[1]}</small></td><td>${ta(id+".a."+j+".0",3)}</td><td>${ta(id+".a."+j+".1",3)}</td></tr>`).join("");
+ const cr=CRIT.map((r,j)=>`<tr><td class="l">${r}</td><td>${ta(id+".b."+j+".0",3)}</td><td>${ta(id+".b."+j+".1",3)}</td></tr>`).join("");
+ const tf=p.tf.map((t,j)=>`<li><span>${j+1}. ${t}</span><div class="yn" data-k="${id}.t.${j}"><button data-v="Так">Так</button><button data-v="Ні">Ні</button></div></li>`).join("");
+ return `<section class="card" id="${id}" style="--c:${p.c};--c2:${p.c2}">
+ <div class="hd"><div class="big">${i+1}</div><span class="badge">Навчальний проєкт · 10 клас · Варіант ${i+1}</span><h1>Складання характеристики виду за видовими критеріями</h1><div class="sub">${A} і ${B}</div></div>
+ <div class="names"><div class="sp s1"><b>${A}</b><i>${p.a[1]}</i></div><div class="sp s2"><b>${B}</b><i>${p.b[1]}</i></div></div>
+ <div class="who"><div><label class="w">Прізвище, ім’я</label><input class="g" data-g="name"></div><div><label class="w">Клас</label><input class="g" data-g="klas"></div></div>
+ <div class="goal"><b>Мета:</b> порівняти два види за видовими критеріями й визначити, що спільне та відмінне між ними. <i>${p.hook}</i></div>
+ <div class="prog"><i></i></div><div class="pl"></div>
+ <div class="sec"><div class="task"><span class="n">1</span><span>Користуючись додатками, заповніть таблицю порівняння.</span><span class="pts">3 бали</span></div>
+ <div class="tw"><table><tr><th>Ознака</th><th>${A}</th><th>${B}</th></tr>${rows}</table></div></div>
+ <div class="sec"><div class="task"><span class="n">2</span><span>Вкажіть, що спільного й чим відрізняються ці організми за критеріями виду.</span><span class="pts">4 бали</span></div><p class="q">Наводьте факти, а не загальні слова.</p>
+ <div class="tw"><table><tr><th>Критерій виду</th><th>Спільне</th><th>Відмінне</th></tr>${cr}</table></div></div>
+ <div class="sec"><div class="task"><span class="n">3</span><span>Оберіть «Так» або «Ні».</span><span class="pts">2 бали</span></div><ul class="tf">${tf}</ul></div>
+ <div class="sec"><div class="task"><span class="n">4</span><span>${p.q4}</span><span class="pts">1 бал</span></div>${ta(id+".q4",3)}</div>
+ <div class="sec"><div class="task"><span class="n">5</span><span>${p.q5}</span><span class="pts">2 бали</span></div>${ta(id+".q5",4)}</div>
+ <div class="sum"><div class="task"><b>Висновок.</b></div><p class="q">Вид — це сукупність особин, які … Поясніть, за якими критеріями ${A} і ${B} збігаються, а за якими відрізняються. Зробіть висновок: це один вид чи різні? Обґрунтуйте щонайменше трьома критеріями.</p>${ta(id+".sum",5)}</div>
+ <div class="act"><button class="btn" data-act="copy">Скопіювати відповіді</button><button class="btn" data-act="send">Надіслати вчителю</button><button class="btn o" data-act="clear">Очистити</button><span class="msg"></span></div>
+ <div class="foot">Порівнюй. Спостерігай. Роби висновки!</div></section>`;
+}
+const vlist=P.map((p,i)=>`<a class="vl" href="#v${i+1}" data-go="v${i+1}"><span class="nn" style="background:${p.c2}">${i+1}</span><span><b>${p.a[0]}</b> (<i>${p.a[1]}</i>) і <b>${p.b[0]}</b> (<i>${p.b[1]}</i>)</span></a>`).join("");
+const info=`<section class="card on" id="info" style="--c:#6a4fb3;--c2:#e4dcf7">
+ <div class="hd"><div class="big">?</div><span class="badge">Інструктивна картка · 10 клас</span><h1>Навчальний проєкт «Складання характеристики виду за видовими критеріями»</h1></div>
+ <div class="sec grid2"><div class="box"><h3>Мета</h3>Навчитися характеризувати вид за морфологічним, екологічним, географічним, генетичним і репродуктивним критеріями; порівнювати близькі організми та обґрунтовувати, чи належать вони до одного виду.</div>
+ <div class="box"><h3>Що потрібно</h3>Підручник (параграф про вид і його критерії), атласи-визначники, довідники, достовірні інтернет-джерела, фото та відео.</div></div>
+ <div class="sec"><div class="box"><h3>Порядок виконання</h3><ol>
+ <li>Оберіть варіант (1–8) за вказівкою вчителя й відкрийте його картку.</li>
+ <li>Повторіть поняття «вид» та п’ять видових критеріїв (пам’ятка нижче).</li>
+ <li>Зберіть дані про обидва організми щонайменше у 2–3 джерелах.</li>
+ <li>Заповніть таблицю (завдання 1): коротко, фактами й числами.</li>
+ <li>Порівняйте організми за критеріями (завдання 2), виконайте завдання 3–5.</li>
+ <li>Сформулюйте висновок: один вид чи різні? Обґрунтуйте не менше ніж трьома критеріями.</li>
+ <li>Натисніть «Надіслати вчителю» (або «Скопіювати відповіді» й надішліть текст у спосіб, який вказав учитель). Відповіді також автоматично зберігаються в цьому браузері.</li></ol></div></div>
+ <div class="sec grid2"><div class="box"><h3>Пам’ятка: видові критерії</h3><ul><li><b>Морфологічний</b> — зовнішня й внутрішня будова</li><li><b>Екологічний</b> — умови існування, спосіб життя</li><li><b>Географічний</b> — ареал поширення</li><li><b>Генетичний</b> — кількість і будова хромосом, ДНК</li><li><b>Репродуктивний</b> — плідне потомство в межах виду</li></ul><small>Вид визначають за сукупністю критеріїв, жоден із них не є абсолютним.</small></div>
+ <div class="box"><h3>Оцінювання (12 балів)</h3><ul><li>Завдання 1 — 3 бали</li><li>Завдання 2 — 4 бали</li><li>Завдання 3 — 2 бали</li><li>Завдання 4 — 1 бал</li><li>Завдання 5 — 2 бали</li></ul><small>Висновок враховується в оцінці завдань 2 і 5 за повнотою й логікою.</small></div></div>
+ <div class="sec"><div class="box"><h3>Варіанти</h3>${vlist}</div></div>
+ <div class="foot" style="margin-top:14px">Порівнюй. Спостерігай. Роби висновки!</div></section>`;
+document.getElementById("root").innerHTML=info+P.map(card).join("");
+
+const nav=document.getElementById("nav");
+nav.innerHTML=`<a href="#info" data-go="info">Інструкція</a>`+P.map((p,i)=>`<a href="#v${i+1}" data-go="v${i+1}">Варіант ${i+1}</a>`).join("");
+function route(h){if(typeof h!=="string")h=location.hash.slice(1);if(!document.getElementById(h))h="info";
+ document.querySelectorAll(".card").forEach(c=>c.classList.toggle("on",c.id===h));
+ nav.querySelectorAll("a").forEach(a=>a.classList.toggle("cur",a.getAttribute("href")==="#"+h));scrollTo(0,0)}
+addEventListener("hashchange",()=>route());
+
+function restore(){
+ document.querySelectorAll("textarea[data-k]").forEach(t=>t.value=S.f[t.dataset.k]||"");
+ document.querySelectorAll(".yn").forEach(y=>y.querySelectorAll("button").forEach(b=>b.classList.toggle("sel",S.f[y.dataset.k]===b.dataset.v)));
+ document.querySelectorAll("input[data-g]").forEach(i=>i.value=S[i.dataset.g]||"");
+ P.forEach((_,i)=>prog("v"+(i+1)));
+}
+function keys(id){return Object.keys(S.f).filter(k=>k.startsWith(id+"."))}
+function total(id){return document.querySelectorAll(`#${id} textarea[data-k], #${id} .yn`).length}
+function filled(id){return [...document.querySelectorAll(`#${id} textarea[data-k], #${id} .yn`)].filter(e=>(S.f[e.dataset.k]||"").trim()).length}
+function prog(id){const t=total(id),f=filled(id),c=document.getElementById(id);c.querySelector(".prog i").style.width=(100*f/t)+"%";c.querySelector(".pl").textContent="Заповнено "+f+" з "+t+" полів"}
+document.addEventListener("input",e=>{const t=e.target;
+ if(t.dataset.g){S[t.dataset.g]=t.value;document.querySelectorAll(`input[data-g="${t.dataset.g}"]`).forEach(i=>{if(i!==t)i.value=t.value});save();return}
+ if(t.dataset.k){S.f[t.dataset.k]=t.value;save();prog(t.dataset.k.split(".")[0])}});
+const say=(c,m)=>{c.querySelector(".msg").textContent=m};
+function text(i){const p=P[i],id="v"+(i+1),g=k=>(S.f[k]||"—").trim()||"—";let o=`Варіант ${i+1}: ${p.a[0]} і ${p.b[0]}\n${S.name} (${S.klas})\n\nЗавдання 1\n`;
+ p.rows.forEach((r,j)=>o+=`${r[0]}\n  ${p.a[0]}: ${g(id+".a."+j+".0")}\n  ${p.b[0]}: ${g(id+".a."+j+".1")}\n`);
+ o+="\nЗавдання 2\n";CRIT.forEach((r,j)=>o+=`${r}\n  Спільне: ${g(id+".b."+j+".0")}\n  Відмінне: ${g(id+".b."+j+".1")}\n`);
+ o+="\nЗавдання 3\n";p.tf.forEach((t,j)=>o+=`${j+1}. ${t} — ${g(id+".t."+j)}\n`);
+ return o+`\nЗавдання 4: ${p.q4}\n${g(id+".q4")}\n\nЗавдання 5: ${p.q5}\n${g(id+".q5")}\n\nВисновок:\n${g(id+".sum")}\n`}
+const FORM="https://docs.google.com/forms/d/e/1FAIpQLScMI5HY1S_PXe3VKgsWiRkzBnKkUwvfRov_JEGeF6-gS3Wurw/formResponse";
+const F={name:"entry.1498547269",klas:"entry.1927643223",variant:"entry.92446093",answers:"entry.1749439882"};
+document.addEventListener("click",async e=>{
+ const g=e.target.closest("[data-go]");if(g){e.preventDefault();route(g.dataset.go);try{history.replaceState(null,"","#"+g.dataset.go)}catch(_){}return}
+ const y=e.target.closest(".yn button");
+ if(y){const k=y.parentNode.dataset.k;S.f[k]=S.f[k]===y.dataset.v?"":y.dataset.v;y.parentNode.querySelectorAll("button").forEach(b=>b.classList.toggle("sel",S.f[k]===b.dataset.v));save();prog(k.split(".")[0]);return}
+ const b=e.target.closest("[data-act]");if(!b)return;const c=b.closest(".card"),act=b.dataset.act,i=c.id.startsWith("v")?+c.id.slice(1)-1:-1;
+ if(act==="copy"){const tx=text(i);try{await navigator.clipboard.writeText(tx);say(c,"Скопійовано.")}catch(_){const t=document.createElement("textarea");t.value=tx;document.body.appendChild(t);t.select();let ok=false;try{ok=document.execCommand("copy")}catch(_){}t.remove();say(c,ok?"Скопійовано.":"Не вдалося скопіювати: виділіть і скопіюйте відповіді вручну.")}}
+ if(act==="clear"){if(!confirm("Очистити всі відповіді цього варіанта?"))return;keys(c.id).forEach(k=>delete S.f[k]);save();restore();say(c,"Очищено.")}
+ if(act==="send"){if(!S.name.trim()||!S.klas.trim()){say(c,"Спершу введіть прізвище, ім’я та клас.");return}
+  if(!filled(c.id)){say(c,"Спершу заповніть хоча б одне поле.");return}
+  b.disabled=true;say(c,"Надсилання…");
+  try{const d=new URLSearchParams();d.set(F.name,S.name.trim());d.set(F.klas,S.klas.trim());d.set(F.variant,"Варіант "+(i+1)+": "+P[i].a[0]+" і "+P[i].b[0]);d.set(F.answers,text(i));
+   await fetch(FORM,{method:"POST",mode:"no-cors",headers:{"Content-Type":"application/x-www-form-urlencoded"},body:d});say(c,"Надіслано вчителю.")}
+  catch(err){say(c,"Не вдалося надіслати. Скопіюйте відповіді й надішліть іншим способом.")}
+  b.disabled=false}
+});
+restore();route();
+</script>
+</body>
+</html>
